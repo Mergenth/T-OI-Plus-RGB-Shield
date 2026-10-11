@@ -1,0 +1,39 @@
+# T-OI Plus + WEMOS 1-Button Shield fuer Home Assistant (ESPHome)
+# Button an D3 = GPIO9 (teilt sich den Pin mit der BOOT-Taste), aktiv LOW.
+esphome:
+  name: t-oi-plus-1-button
+  friendly_name: T-OI Plus 1-Button
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: esp-idf
+
+logger:
+
+# Hinweis: bewusst ohne API-Verschluesselungs-Key und ohne OTA-Passwort,
+# weil dieses Repository oeffentlich ist.
+api:
+
+ota:
+  - platform: esphome
+
+# WLAN wird nach dem Flashen per Improv (Browser) eingerichtet.
+wifi:
+  ap: {}
+
+captive_portal:
+
+improv_serial:
+
+binary_sensor:
+  - platform: gpio
+    name: "Button"
+    pin:
+      number: GPIO9
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    filters:
+      - delayed_on_off: 20ms
