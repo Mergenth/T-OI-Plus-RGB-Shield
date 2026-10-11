@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>T-OI Plus RGB Shield Flasher</title>
+  <script type="module" src="https://unpkg.com/esp-web-tools@10.1.0/dist/web/install-button.js?module"></script>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+    h1 { font-size: 1.5rem; }
+    code { background: #eee; padding: 0 .25rem; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <h1>T-OI Plus + 8x8 RGB Shield</h1>
+  <p>Flasht die LED-Testfirmware (64x WS2812B an GPIO8) direkt aus dem Browser auf ein LILYGO T-OI Plus (ESP32-C3).</p>
+  <esp-web-install-button manifest="manifest.json">
+    <button slot="activate">Firmware installieren</button>
+    <span slot="unsupported">Bitte Chrome oder Edge am Desktop verwenden (Web Serial wird benoetigt).</span>
+    <span slot="not-allowed">Diese Seite muss ueber HTTPS geoeffnet werden.</span>
+  </esp-web-install-button>
+  <h2>Vorher</h2>
+  <ol>
+    <li>Board per USB anschliessen.</li>
+    <li><b>BOOT</b> gedrueckt halten, kurz <b>RST</b> druecken, <b>BOOT</b> loslassen (Download-Modus).</li>
+    <li>Auf &bdquo;Firmware installieren&ldquo; klicken und den COM-Port des Boards waehlen.</li>
+    <li>Nach dem Flashen einmal kurz <b>RST</b> druecken.</li>
+  </ol>
+  <p>Quelltext: <a href="https://github.com/Mergenth/T-OI-Plus-RGB-Shield">github.com/Mergenth/T-OI-Plus-RGB-Shield</a></p>
+</body>
+</html>
