@@ -1,0 +1,14 @@
+{
+  "name": "T-OI Plus LD2410C Radar - Home Assistant (ESPHome)",
+  "version": "1.0",
+  "new_install_prompt_erase": false,
+  "builds": [
+    {
+      "chipFamily": "ESP32-C3",
+      "improv": true,
+      "parts": [
+        { "path": "firmware.factory.bin", "offset": 0 }
+      ]
+    }
+  ]
+}
