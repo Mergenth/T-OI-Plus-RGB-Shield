@@ -64,6 +64,11 @@ jobs:
           esphome compile Claude/ha-1-button/ha-1-button.yaml
           find Claude/ha-1-button -name "firmware.factory.bin"
 
+      - name: Compile Home Assistant LD2410C radar (ESPHome, ESP32-C3)
+        run: |
+          esphome compile Claude/ha-ld2410c/ha-ld2410c.yaml
+          find Claude/ha-ld2410c -name "firmware.factory.bin"
+
       - name: Assemble flash page
         run: |
           mkdir site
@@ -79,6 +84,11 @@ jobs:
           FW=$(find Claude/ha-1-button -name firmware.factory.bin | head -n 1)
           test -n "$FW"
           cp "$FW" site/ha-1-button/firmware.factory.bin
+          mkdir site/ld2410c
+          cp web/ld2410c/index.html web/ld2410c/manifest.json site/ld2410c/
+          FW2=$(find Claude/ha-ld2410c -name firmware.factory.bin | head -n 1)
+          test -n "$FW2"
+          cp "$FW2" site/ld2410c/firmware.factory.bin
 
       - name: Upload firmware files
         uses: actions/upload-artifact@v4
