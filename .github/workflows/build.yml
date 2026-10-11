@@ -34,26 +34,36 @@ jobs:
           arduino-cli core install esp32:esp32
           arduino-cli lib install "Adafruit NeoPixel"
 
-      - name: Compile (T-OI Plus, ESP32-C3)
+      - name: Compile Farbtest (T-OI Plus, ESP32-C3)
         run: |
           arduino-cli compile \
             --fqbn esp32:esp32:ttgo-t-oi-plus \
-            --output-dir build \
+            --output-dir build/rgb_shield \
             Claude/rgb_shield
-          ls -l build
+          ls -l build/rgb_shield
+
+      - name: Compile Laufschrift (T-OI Plus, ESP32-C3)
+        run: |
+          arduino-cli compile \
+            --fqbn esp32:esp32:ttgo-t-oi-plus \
+            --output-dir build/laufschrift \
+            Claude/laufschrift
+          ls -l build/laufschrift
 
       - name: Assemble flash page
         run: |
           mkdir site
-          cp web/index.html web/manifest.json site/
-          test -f build/rgb_shield.ino.merged.bin
-          cp build/rgb_shield.ino.merged.bin site/firmware.merged.bin
+          cp web/index.html web/manifest.json web/manifest-laufschrift.json site/
+          test -f build/rgb_shield/rgb_shield.ino.merged.bin
+          test -f build/laufschrift/laufschrift.ino.merged.bin
+          cp build/rgb_shield/rgb_shield.ino.merged.bin site/firmware.merged.bin
+          cp build/laufschrift/laufschrift.ino.merged.bin site/firmware-laufschrift.merged.bin
 
       - name: Upload firmware files
         uses: actions/upload-artifact@v4
         with:
           name: firmware-t-oi-plus
-          path: build/*.bin
+          path: build/**/*.bin
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
