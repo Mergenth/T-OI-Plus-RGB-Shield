@@ -50,14 +50,24 @@ jobs:
             Claude/laufschrift
           ls -l build/laufschrift
 
+      - name: Compile Regenbogen (T-OI Plus, ESP32-C3)
+        run: |
+          arduino-cli compile \
+            --fqbn esp32:esp32:ttgo-t-oi-plus \
+            --output-dir build/regenbogen \
+            Claude/regenbogen
+          ls -l build/regenbogen
+
       - name: Assemble flash page
         run: |
           mkdir site
-          cp web/index.html web/manifest.json web/manifest-laufschrift.json site/
+          cp web/index.html web/manifest.json web/manifest-laufschrift.json web/manifest-regenbogen.json site/
           test -f build/rgb_shield/rgb_shield.ino.merged.bin
           test -f build/laufschrift/laufschrift.ino.merged.bin
+          test -f build/regenbogen/regenbogen.ino.merged.bin
           cp build/rgb_shield/rgb_shield.ino.merged.bin site/firmware.merged.bin
           cp build/laufschrift/laufschrift.ino.merged.bin site/firmware-laufschrift.merged.bin
+          cp build/regenbogen/regenbogen.ino.merged.bin site/firmware-regenbogen.merged.bin
 
       - name: Upload firmware files
         uses: actions/upload-artifact@v4
