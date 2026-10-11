@@ -1,0 +1,38 @@
+name: Build firmware
+
+on:
+  push:
+    paths:
+      - "Claude/**"
+      - ".github/workflows/build.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install arduino-cli
+        uses: arduino/setup-arduino-cli@v2
+
+      - name: Install ESP32 core and libraries
+        run: |
+          arduino-cli config init
+          arduino-cli config add board_manager.additional_urls https://espressif.github.io/arduino-esp32/package_esp32_index.json
+          arduino-cli core update-index
+          arduino-cli core install esp32:esp32
+          arduino-cli lib install "Adafruit NeoPixel"
+
+      - name: Compile (T-OI Plus, ESP32-C3)
+        run: |
+          arduino-cli compile \
+            --fqbn esp32:esp32:ttgo-t-oi-plus \
+            --output-dir build \
+            Claude/rgb_shield
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware-t-oi-plus
+          path: build/*.bin
