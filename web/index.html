@@ -16,7 +16,7 @@
 </head>
 <body>
   <h1>T-OI Plus + 8x8 RGB Shield</h1>
-  <p>Flasht eine Firmware direkt aus dem Browser auf ein LILYGO T-OI Plus (ESP32-C3) mit WEMOS 8x8 RGB Shield (64x WS2812B an GPIO8). Zur Auswahl stehen zwei Programme:</p>
+  <p>Flasht eine Firmware direkt aus dem Browser auf ein LILYGO T-OI Plus (ESP32-C3) mit WEMOS 8x8 RGB Shield (64x WS2812B an GPIO8). Zur Auswahl stehen drei Programme:</p>
 
   <div class="option">
     <h2>1. Farbtest</h2>
@@ -33,6 +33,16 @@
     <p>Der Name Carenuity l&auml;uft in Blau von rechts nach links &uuml;ber die 8x8-Matrix.</p>
     <esp-web-install-button manifest="manifest-laufschrift.json">
       <button slot="activate">Laufschrift installieren</button>
+      <span slot="unsupported">Bitte Chrome oder Edge am Desktop verwenden (Web Serial wird ben&ouml;tigt).</span>
+      <span slot="not-allowed">Diese Seite muss &uuml;ber HTTPS ge&ouml;ffnet werden.</span>
+    </esp-web-install-button>
+  </div>
+
+  <div class="option">
+    <h2>3. Regenbogen</h2>
+    <p>Ein weicher Regenbogen-Farbverlauf wandert diagonal &uuml;ber alle 64 LEDs.</p>
+    <esp-web-install-button manifest="manifest-regenbogen.json">
+      <button slot="activate">Regenbogen installieren</button>
       <span slot="unsupported">Bitte Chrome oder Edge am Desktop verwenden (Web Serial wird ben&ouml;tigt).</span>
       <span slot="not-allowed">Diese Seite muss &uuml;ber HTTPS ge&ouml;ffnet werden.</span>
     </esp-web-install-button>
