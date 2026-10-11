@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T-OI Plus 1-Button Shield Flasher for Home-Assistant</title>
+<script type="module" src="https://unpkg.com/esp-web-tools@10.1.0/dist/web/install-button.js?module"></script>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 42rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; color: #222; }
+  h1 { font-size: 1.6rem; }
+  .option { border: 1px solid #ccc; border-radius: 8px; padding: 1rem; margin: 1.5rem 0; }
+  code { background: #f0f0f0; padding: 0 .25rem; border-radius: 3px; }
+  .note { background: #fff8e1; border-left: 4px solid #f5b400; padding: .5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>T-OI Plus + 1-Button Shield f&uuml;r Home-Assistant</h1>
+<p>Diese Seite flasht eine ESPHome-Firmware auf ein LILYGO T-OI Plus (ESP32-C3) mit aufgestecktem
+<a href="https://www.wemos.cc/en/latest/d1_mini_shield/1_button.html">WEMOS 1-Button Shield</a>.
+Der Taster erscheint in Home Assistant als Bin&auml;rsensor &bdquo;Button&ldquo;.</p>
+
+<div class="option">
+  <h2>Firmware flashen</h2>
+  <esp-web-install-button manifest="manifest.json">
+    <button slot="activate">ESPHome-Firmware flashen</button>
+    <span slot="unsupported">Dieser Browser unterst&uuml;tzt Web Serial nicht. Bitte Chrome oder Edge am Desktop verwenden.</span>
+    <span slot="not-allowed">Diese Seite muss &uuml;ber HTTPS aufgerufen werden.</span>
+  </esp-web-install-button>
+</div>
+
+<h2>Ablauf</h2>
+<ol>
+  <li>T-OI Plus per USB anschlie&szlig;en und oben auf &bdquo;Firmware flashen&ldquo; klicken, COM-Port w&auml;hlen. Falls die Verbindung scheitert: BOOT gedr&uuml;ckt halten, RST kurz dr&uuml;cken, BOOT loslassen und erneut versuchen.</li>
+  <li>Nach dem Flashen fragt der Dialog nach dem WLAN (Improv). SSID und Passwort eingeben; alternativ verbindet man sich mit dem Access Point <code>t-oi-plus-1-button</code> und nutzt das Captive Portal.</li>
+  <li>Home Assistant findet das Ger&auml;t automatisch &uuml;ber die ESPHome-Integration (Einstellungen &rarr; Ger&auml;te &amp; Dienste &rarr; Entdeckt &rarr; ESPHome). Sonst &bdquo;ESPHome&ldquo; hinzuf&uuml;gen und die IP-Adresse eintragen.</li>
+  <li>Die Entit&auml;t &bdquo;Button&ldquo; steht dann f&uuml;r Automationen bereit (Taster gedr&uuml;ckt = <code>on</code>).</li>
+</ol>
+
+<h2>Pin-Belegung</h2>
+<p>Der Taster des WEMOS-Shields liegt an <b>D3</b>. Auf dem T-OI Plus ist das <b>GPIO9</b>; er teilt sich den Pin mit der BOOT-Taste. Die Firmware wertet ihn als aktiv LOW mit internem Pull-up aus.</p>
+
+<p class="note"><b>Hinweis:</b> Die Firmware wird in einem &ouml;ffentlichen Repository gebaut und enth&auml;lt deshalb keinen API-Verschl&uuml;sselungsschl&uuml;ssel und kein OTA-Passwort. Nur in einem vertrauensw&uuml;rdigen Heimnetz verwenden oder die
+<a href="https://github.com/Mergenth/T-OI-Plus-RGB-Shield/blob/main/Claude/ha-1-button/ha-1-button.yaml">Konfiguration</a> mit eigenen Schl&uuml;sseln selbst bauen.</p>
+
+<p><a href="https://github.com/Mergenth/T-OI-Plus-RGB-Shield">Quellcode auf GitHub</a> &middot; <a href="../">zur&uuml;ck zur RGB-Shield-Seite</a></p>
+</body>
+</html>
