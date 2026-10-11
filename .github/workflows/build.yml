@@ -58,6 +58,12 @@ jobs:
             Claude/regenbogen
           ls -l build/regenbogen
 
+      - name: Compile Home Assistant 1-Button (ESPHome, ESP32-C3)
+        run: |
+          pip install esphome
+          esphome compile Claude/ha-1-button/ha-1-button.yaml
+          find Claude/ha-1-button -name "firmware.factory.bin"
+
       - name: Assemble flash page
         run: |
           mkdir site
@@ -68,6 +74,11 @@ jobs:
           cp build/rgb_shield/rgb_shield.ino.merged.bin site/firmware.merged.bin
           cp build/laufschrift/laufschrift.ino.merged.bin site/firmware-laufschrift.merged.bin
           cp build/regenbogen/regenbogen.ino.merged.bin site/firmware-regenbogen.merged.bin
+          mkdir site/ha-1-button
+          cp web/ha-1-button/index.html web/ha-1-button/manifest.json site/ha-1-button/
+          FW=$(find Claude/ha-1-button -name firmware.factory.bin | head -n 1)
+          test -n "$FW"
+          cp "$FW" site/ha-1-button/firmware.factory.bin
 
       - name: Upload firmware files
         uses: actions/upload-artifact@v4
