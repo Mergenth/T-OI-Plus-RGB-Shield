@@ -1,0 +1,61 @@
+# T-OI Plus + LD2410C 24-GHz-Radar fuer Home Assistant (ESPHome)
+# Verdrahtung: Sensor-TX -> GPIO4 (ESP-RX), Sensor-RX -> GPIO5 (ESP-TX),
+# VCC -> VBUS (5 V), GND -> GND.
+esphome:
+  name: t-oi-plus-ld2410c
+  friendly_name: T-OI Plus LD2410C
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: esp-idf
+
+logger:
+
+# Hinweis: bewusst ohne API-Verschluesselungs-Key und ohne OTA-Passwort,
+# weil dieses Repository oeffentlich ist.
+api:
+
+ota:
+  - platform: esphome
+
+# WLAN wird nach dem Flashen per Improv (Browser) eingerichtet.
+wifi:
+  ap: {}
+
+captive_portal:
+
+improv_serial:
+
+uart:
+  id: radar_uart
+  tx_pin: GPIO5
+  rx_pin: GPIO4
+  baud_rate: 256000
+  parity: NONE
+  stop_bits: 1
+
+ld2410:
+  uart_id: radar_uart
+
+binary_sensor:
+  - platform: ld2410
+    has_target:
+      name: "Presence"
+    has_moving_target:
+      name: "Moving Target"
+    has_still_target:
+      name: "Still Target"
+
+sensor:
+  - platform: ld2410
+    moving_distance:
+      name: "Moving Distance"
+    still_distance:
+      name: "Still Distance"
+    moving_energy:
+      name: "Moving Energy"
+    still_energy:
+      name: "Still Energy"
+    detection_distance:
+      name: "Detection Distance"
