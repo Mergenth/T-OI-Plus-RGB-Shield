@@ -4,8 +4,18 @@ on:
   push:
     paths:
       - "Claude/**"
+      - "web/**"
       - ".github/workflows/build.yml"
   workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -30,9 +40,33 @@ jobs:
             --fqbn esp32:esp32:ttgo-t-oi-plus \
             --output-dir build \
             Claude/rgb_shield
+          ls -l build
 
-      - name: Upload firmware
+      - name: Assemble flash page
+        run: |
+          mkdir site
+          cp web/index.html web/manifest.json site/
+          test -f build/rgb_shield.ino.merged.bin
+          cp build/rgb_shield.ino.merged.bin site/firmware.merged.bin
+
+      - name: Upload firmware files
         uses: actions/upload-artifact@v4
         with:
           name: firmware-t-oi-plus
           path: build/*.bin
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
