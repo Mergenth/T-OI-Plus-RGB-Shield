@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T-OI Plus LD2410C Radar Shield Flasher for Home-Assistant</title>
+<script type="module" src="https://unpkg.com/esp-web-tools@10.1.0/dist/web/install-button.js?module"></script>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 42rem; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; color: #222; }
+  h1 { font-size: 1.6rem; }
+  .option { border: 1px solid #ccc; border-radius: 8px; padding: 1rem; margin: 1.5rem 0; }
+  code { background: #f0f0f0; padding: 0 .25rem; border-radius: 3px; }
+  .note { background: #fff8e1; border-left: 4px solid #f5b400; padding: .5rem 1rem; }
+</style>
+</head>
+<body>
+<h1>T-OI Plus + LD2410C Radar-Shield f&uuml;r Home-Assistant</h1>
+<p>Diese Seite flasht eine ESPHome-Firmware auf ein LILYGO T-OI Plus (ESP32-C3) mit angeschlossenem
+24-GHz-Radarsensor <b>LD2410C</b>. Der Sensor erscheint in Home Assistant als Anwesenheitsmelder.</p>
+<p>Weitere Seiten:
+<a href="../">8x8 RGB Shield (drei Programme)</a> &middot;
+<a href="../ha-1-button/">1-Button Shield f&uuml;r Home-Assistant</a></p>
+
+<div class="option">
+  <h2>Firmware flashen</h2>
+  <esp-web-install-button manifest="manifest.json">
+    <button slot="activate">ESPHome-Firmware flashen</button>
+    <span slot="unsupported">Dieser Browser unterst&uuml;tzt Web Serial nicht. Bitte Chrome oder Edge am Desktop verwenden.</span>
+    <span slot="not-allowed">Diese Seite muss &uuml;ber HTTPS aufgerufen werden.</span>
+  </esp-web-install-button>
+</div>
+
+<h2>Ablauf</h2>
+<ol>
+  <li>T-OI Plus per USB anschlie&szlig;en und oben auf &bdquo;Firmware flashen&ldquo; klicken, COM-Port w&auml;hlen. Falls die Verbindung scheitert: BOOT gedr&uuml;ckt halten, RST kurz dr&uuml;cken, BOOT loslassen und erneut versuchen.</li>
+  <li>Nach dem Flashen fragt der Dialog nach dem WLAN (Improv). SSID und Passwort eingeben; alternativ verbindet man sich mit dem Access Point <code>t-oi-plus-ld2410c</code> und nutzt das Captive Portal.</li>
+  <li>Home Assistant findet das Ger&auml;t automatisch &uuml;ber die ESPHome-Integration (Einstellungen &rarr; Ger&auml;te &amp; Dienste &rarr; Entdeckt &rarr; ESPHome). Sonst &bdquo;ESPHome&ldquo; hinzuf&uuml;gen und die IP-Adresse eintragen.</li>
+  <li>Folgende Entit&auml;ten stehen bereit: <code>Presence</code>, <code>Moving Target</code>, <code>Still Target</code> sowie Distanzen (Moving, Still, Detection) und Energiewerte (Moving, Still).</li>
+</ol>
+
+<h2>Pin-Belegung</h2>
+<table>
+  <tr><th align="left">Radar-Sensor</th><th align="left">ESP32-C3 (T-OI Plus)</th></tr>
+  <tr><td>VCC</td><td>VBUS (5 V)</td></tr>
+  <tr><td>GND</td><td>GND</td></tr>
+  <tr><td>TX</td><td>GPIO4 (UART-RX)</td></tr>
+  <tr><td>RX</td><td>GPIO5 (UART-TX)</td></tr>
+</table>
+<p>UART mit 256000 Baud (Standard des LD2410C).</p>
+
+<p class="note"><b>Hinweis:</b> Die Firmware wird in einem &ouml;ffentlichen Repository gebaut und enth&auml;lt deshalb keinen API-Verschl&uuml;sselungsschl&uuml;ssel und kein OTA-Passwort. Nur in einem vertrauensw&uuml;rdigen Heimnetz verwenden oder die
+<a href="https://github.com/Mergenth/T-OI-Plus-RGB-Shield/blob/main/Claude/ha-ld2410c/ha-ld2410c.yaml">Konfiguration</a> mit eigenen Schl&uuml;sseln selbst bauen.</p>
+
+<p><a href="https://github.com/Mergenth/T-OI-Plus-RGB-Shield">Quellcode auf GitHub</a></p>
+</body>
+</html>
